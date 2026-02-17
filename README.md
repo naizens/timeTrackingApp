@@ -32,3 +32,8 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+# Used APIs
+- https://ferien-api.de/
+- https://feiertage-api.de/
+
