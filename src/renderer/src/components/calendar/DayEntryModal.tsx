@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { format } from 'date-fns'
 import { Modal } from '@renderer/components/ui/Modal'
 import { Button } from '@renderer/components/ui/Button'
@@ -41,31 +41,14 @@ export function DayEntryModal({ date, onClose }: DayEntryModalProps) {
   const dateStr = date ? format(date, 'yyyy-MM-dd') : ''
   const existing = workDays[dateStr]
 
-  const [type, setType] = useState<DayType>('work')
-  const [startTime, setStartTime] = useState('09:00')
-  const [endTime, setEndTime] = useState('17:30')
-  const [breakMins, setBreakMins] = useState(30)
-  const [notes, setNotes] = useState('')
-
-  // Populate form with existing data when opened.
-  // Calling setState synchronously here is intentional: the effect runs after render
-  // and re-syncs form state whenever the selected date changes.
-  // eslint-disable-next-line react-compiler/react-compiler
-  useEffect(() => {
-    if (existing) {
-      setType(existing.type)
-      setStartTime(existing.workStartTime || '09:00')
-      setEndTime(existing.workEndTime || '17:30')
-      setBreakMins(existing.breakMinutes)
-      setNotes(existing.notes)
-    } else {
-      setType('work')
-      setStartTime('09:00')
-      setEndTime('17:30')
-      setBreakMins(30)
-      setNotes('')
-    }
-  }, [dateStr, existing])
+  // State is initialized from `existing` on first render.
+  // The parent passes a `key` tied to the selected date, so React remounts this
+  // component on each new date — no useEffect sync needed.
+  const [type, setType] = useState<DayType>(existing?.type ?? 'work')
+  const [startTime, setStartTime] = useState(existing?.workStartTime || '09:00')
+  const [endTime, setEndTime] = useState(existing?.workEndTime || '17:30')
+  const [breakMins, setBreakMins] = useState(existing?.breakMinutes ?? 30)
+  const [notes, setNotes] = useState(existing?.notes ?? '')
 
   const showTimePicker = NEEDS_TIME.has(type)
 

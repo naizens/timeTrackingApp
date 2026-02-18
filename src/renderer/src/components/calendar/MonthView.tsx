@@ -29,16 +29,20 @@ export function MonthView() {
   const settings = useSettingsStore((s) => s.settings)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
-  const [yearStr, monthStr] = currentYearMonth.split('-')
-  const year = parseInt(yearStr)
-  const currentDate = new Date(year, parseInt(monthStr) - 1, 1)
+  // Stable Date object for the first of the displayed month, only changes with currentYearMonth
+  const currentDate = useMemo(() => {
+    const [y, m] = currentYearMonth.split('-').map(Number)
+    return new Date(y, m - 1, 1)
+  }, [currentYearMonth])
 
   useEffect(() => {
+    const [y, m] = currentYearMonth.split('-').map(Number)
     loadMonth(currentYearMonth)
-    fetchHolidays(year, settings.germanState)
+    fetchHolidays(y, settings.germanState)
     // Pre-fetch adjacent year for smooth navigation near year boundary
-    if (parseInt(monthStr) === 1) fetchHolidays(year - 1, settings.germanState)
-    if (parseInt(monthStr) === 12) fetchHolidays(year + 1, settings.germanState)
+    if (m === 1) fetchHolidays(y - 1, settings.germanState)
+    if (m === 12) fetchHolidays(y + 1, settings.germanState)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentYearMonth, settings.germanState])
 
   const holidaysByDate = useMemo<Record<string, HolidayEntry[]>>(() => {
@@ -55,7 +59,7 @@ export function MonthView() {
     const start = startOfWeek(startOfMonth(currentDate), { weekStartsOn: 1 })
     const end = endOfWeek(endOfMonth(currentDate), { weekStartsOn: 1 })
     return eachDayOfInterval({ start, end })
-  }, [currentYearMonth])
+  }, [currentDate])
 
   // Monthly stats: total work minutes and total overtime
   const { totalWorkMinutes, totalOvertimeMinutes } = useMemo(() => {
@@ -78,7 +82,7 @@ export function MonthView() {
         }
       })
     return { totalWorkMinutes: work, totalOvertimeMinutes: overtime }
-  }, [workDays, currentYearMonth, settings.workHoursPerDay])
+  }, [days, currentDate, workDays, settings.workHoursPerDay])
 
   const totalHours = (totalWorkMinutes / 60).toFixed(1)
   const overtimeLabel = formatOvertime(totalOvertimeMinutes)
@@ -133,8 +137,12 @@ export function MonthView() {
         })}
       </div>
 
-      {/* Day entry modal */}
-      <DayEntryModal date={selectedDate} onClose={() => setSelectedDate(null)} />
+      {/* key forces a full remount when the date changes so form state resets cleanly */}
+      <DayEntryModal
+        key={selectedDate?.toISOString() ?? ''}
+        date={selectedDate}
+        onClose={() => setSelectedDate(null)}
+      />
     </div>
   )
 }

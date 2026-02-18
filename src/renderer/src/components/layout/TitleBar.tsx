@@ -20,7 +20,8 @@ export function TitleBar() {
     >
       {/* Left: App name */}
       <div className="flex items-center gap-2 px-4">
-        <span className="text-white text-xs font-semibold tracking-wide">Time Tracker</span>
+        <div className="w-3 h-3 rounded-full bg-blue-500" />
+        <span className="text-white text-xs font-semibold tracking-wide">Work Tracker</span>
       </div>
 
       {/* Right: Window control buttons */}
