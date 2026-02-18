@@ -58,7 +58,7 @@ export function DayCell({
     <div
       onClick={() => onClick(date)}
       className={`
-        relative min-h-[80px] p-2 cursor-pointer border-b border-r border-gray-200
+        relative h-full min-h-20 p-2 cursor-pointer border-b border-r border-gray-200
         transition-colors duration-100 hover:brightness-95
         ${bgColor()}
         ${!isCurrentMonth ? 'opacity-40' : ''}

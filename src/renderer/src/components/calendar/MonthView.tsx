@@ -88,7 +88,7 @@ export function MonthView() {
   const overtimeLabel = formatOvertime(totalOvertimeMinutes)
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="h-full flex flex-col gap-3">
       {/* Month summary bar */}
       {totalWorkMinutes > 0 && (
         <div className="flex items-center gap-4 text-sm bg-blue-50 border border-blue-100 rounded-lg px-4 py-2">
@@ -109,32 +109,36 @@ export function MonthView() {
       )}
 
       {/* Calendar grid */}
-      <div className="grid grid-cols-7 border-l border-t border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="flex-1 min-h-0 flex flex-col border-l border-t border-gray-200 rounded-xl overflow-hidden shadow-sm">
         {/* Weekday headers */}
-        {WEEKDAY_LABELS.map((d) => (
-          <div
-            key={d}
-            className="bg-gray-100 text-center text-xs font-semibold text-gray-500 py-2 border-b border-r border-gray-200"
-          >
-            {d}
-          </div>
-        ))}
+        <div className="grid grid-cols-7">
+          {WEEKDAY_LABELS.map((d) => (
+            <div
+              key={d}
+              className="bg-gray-100 text-center text-xs font-semibold text-gray-500 py-2 border-b border-r border-gray-200"
+            >
+              {d}
+            </div>
+          ))}
+        </div>
 
         {/* Day cells */}
-        {days.map((day) => {
-          const dateStr = format(day, 'yyyy-MM-dd')
-          return (
-            <DayCell
-              key={dateStr}
-              date={day}
-              isCurrentMonth={isSameMonth(day, currentDate)}
-              workDay={workDays[dateStr]}
-              holidays={holidaysByDate[dateStr] ?? []}
-              workHoursPerDay={settings.workHoursPerDay}
-              onClick={setSelectedDate}
-            />
-          )
-        })}
+        <div className="flex-1 grid grid-cols-7 auto-rows-fr">
+          {days.map((day) => {
+            const dateStr = format(day, 'yyyy-MM-dd')
+            return (
+              <DayCell
+                key={dateStr}
+                date={day}
+                isCurrentMonth={isSameMonth(day, currentDate)}
+                workDay={workDays[dateStr]}
+                holidays={holidaysByDate[dateStr] ?? []}
+                workHoursPerDay={settings.workHoursPerDay}
+                onClick={setSelectedDate}
+              />
+            )
+          })}
+        </div>
       </div>
 
       {/* key forces a full remount when the date changes so form state resets cleanly */}

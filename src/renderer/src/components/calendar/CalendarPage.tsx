@@ -37,7 +37,7 @@ export function CalendarPage() {
   }
 
   return (
-    <div className="p-6 flex flex-col gap-4">
+    <div className="h-full p-6 flex flex-col gap-4">
       {/* Header bar */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -89,7 +89,9 @@ export function CalendarPage() {
       )}
 
       {/* Calendar grid */}
-      <MonthView />
+      <div className="flex-1 min-h-0">
+        <MonthView />
+      </div>
     </div>
   )
 }
