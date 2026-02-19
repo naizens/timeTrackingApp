@@ -22,11 +22,11 @@ interface DayEntryModalProps {
 }
 
 const TYPE_OPTIONS = [
-  { value: 'work', label: 'Arbeitstag' },
-  { value: 'vacation', label: 'Urlaub (wird im Urlaubskonto gezählt)' },
-  { value: 'sick', label: 'Krank' },
-  { value: 'paid_absence', label: 'Bezahlter Fehltag' },
-  { value: 'school_day', label: 'Berufsschultag (8h Arbeitszeit)' }
+  { value: 'work', label: 'Work day' },
+  { value: 'vacation', label: 'Vacation (counted in leave balance)' },
+  { value: 'sick', label: 'Sick' },
+  { value: 'paid_absence', label: 'Paid absence' },
+  { value: 'school_day', label: 'Vocational school day (8h work time)' }
 ]
 
 // Types that need start/end time inputs
@@ -146,7 +146,7 @@ export function DayEntryModal({ date, onClose }: DayEntryModalProps) {
     >
       <div className="flex flex-col gap-4">
         <Select
-          label="Typ"
+          label="Type"
           value={type}
           onChange={(e) => setType(e.target.value as DayType)}
           options={TYPE_OPTIONS}
@@ -157,13 +157,13 @@ export function DayEntryModal({ date, onClose }: DayEntryModalProps) {
           <>
             <div className="grid grid-cols-2 gap-3">
               <Input
-                label="Arbeitsbeginn"
+                label="Start time"
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
               />
               <Input
-                label="Arbeitsende"
+                label="End time"
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
@@ -171,7 +171,7 @@ export function DayEntryModal({ date, onClose }: DayEntryModalProps) {
             </div>
 
             <Input
-              label="Pause (Minuten)"
+              label="Break (minutes)"
               type="number"
               min={0}
               max={480}
@@ -185,7 +185,7 @@ export function DayEntryModal({ date, onClose }: DayEntryModalProps) {
         {netMins > 0 && (
           <div className="bg-blue-50 rounded-lg px-4 py-3 text-sm flex items-center justify-between">
             <span className="text-blue-800 font-medium">
-              {type === 'school_day' ? 'Angerechnet: ' : 'Nettoarbeitszeit: '}
+              {type === 'school_day' ? 'Credited: ' : 'Net work time: '}
               <span className="font-bold">{formatMinutes(netMins)}</span>
             </span>
             {overtimeLabel && (
@@ -203,33 +203,33 @@ export function DayEntryModal({ date, onClose }: DayEntryModalProps) {
         {/* Info hints for special types */}
         {type === 'vacation' && (
           <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-2.5 text-xs text-blue-700">
-            Dieser Tag wird automatisch in deinem Urlaubskonto erfasst.
+            This day is automatically recorded in your leave balance.
           </div>
         )}
         {type === 'paid_absence' && (
           <div className="bg-purple-50 border border-purple-100 rounded-lg px-4 py-2.5 text-xs text-purple-700">
-            Bezahlter Fehltag – kein Urlaub, kein Überstundenausgleich.
+            Paid absence – no vacation, no overtime compensation.
           </div>
         )}
 
         <Textarea
-          label="Notizen"
+          label="Notes"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Optionale Notizen..."
+          placeholder="Optional notes..."
         />
 
         <div className="flex gap-2 pt-2">
           <Button onClick={handleSave} className="flex-1">
-            Speichern
+            Save
           </Button>
           {existing && (
             <Button variant="danger" onClick={handleDelete}>
-              Löschen
+              Delete
             </Button>
           )}
           <Button variant="secondary" onClick={onClose}>
-            Abbrechen
+            Cancel
           </Button>
         </div>
       </div>

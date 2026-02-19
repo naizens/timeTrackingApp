@@ -41,13 +41,13 @@ function EntryModal({ isOpen, onClose, onSave, initial, title }: EntryModalProps
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-3">
           <Input
-            label="Von"
+            label="From"
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
           <Input
-            label="Bis"
+            label="To"
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
@@ -55,11 +55,11 @@ function EntryModal({ isOpen, onClose, onSave, initial, title }: EntryModalProps
         </div>
         {days > 0 && (
           <div className="bg-blue-50 text-blue-800 rounded-lg px-4 py-2 text-sm font-medium">
-            {days} Werktag{days !== 1 ? 'e' : ''}
+            {days} business day{days !== 1 ? 's' : ''}
           </div>
         )}
         <Textarea
-          label="Notizen"
+          label="Notes"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Optional..."
@@ -73,10 +73,10 @@ function EntryModal({ isOpen, onClose, onSave, initial, title }: EntryModalProps
             }}
             disabled={!startDate || !endDate || endDate < startDate}
           >
-            Speichern
+            Save
           </Button>
           <Button variant="secondary" onClick={onClose}>
-            Abbrechen
+            Cancel
           </Button>
         </div>
       </div>
@@ -180,14 +180,14 @@ export function VacationPage() {
 
   return (
     <div className="p-6 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold text-gray-900">Urlaub & Krankentage</h1>
+      <h1 className="text-2xl font-bold text-gray-900">Vacation & Sick Days</h1>
 
       {/* Budget */}
-      <Card title={`Urlaubsbudget ${currentYear}`}>
+      <Card title={`Vacation Budget ${currentYear}`}>
         <div className="flex items-end gap-3">
           <div className="w-40">
             <Input
-              label="Urlaubstage gesamt"
+              label="Total vacation days"
               type="number"
               min={1}
               max={365}
@@ -196,21 +196,21 @@ export function VacationPage() {
             />
           </div>
           <Button onClick={handleSaveBudget} variant="secondary">
-            Speichern
+            Save
           </Button>
           {budget > 0 && (
             <div className="text-sm text-gray-600 ml-2">
               <span className="font-semibold text-blue-700">
                 {Math.max(0, budget - usedVacDays)}
               </span>{' '}
-              von {budget} Tagen verbleiben
+              of {budget} days remaining
             </div>
           )}
         </div>
       </Card>
 
       {/* Vacation entries */}
-      <Card title="Urlaubseinträge">
+      <Card title="Vacation Entries">
         <div className="flex flex-col gap-2">
           <Button
             size="sm"
@@ -220,10 +220,10 @@ export function VacationPage() {
             }}
             className="self-start"
           >
-            <Plus size={14} /> Eintrag hinzufügen
+            <Plus size={14} /> Add entry
           </Button>
           {vacationEntries.length === 0 ? (
-            <p className="text-sm text-gray-400 mt-2">Noch keine Urlaubseinträge</p>
+            <p className="text-sm text-gray-400 mt-2">No vacation entries yet</p>
           ) : (
             <ul className="flex flex-col gap-2 mt-2">
               {[...vacationEntries].reverse().map((e) => (
@@ -236,7 +236,7 @@ export function VacationPage() {
                       {e.startDate} – {e.endDate}
                     </span>
                     <Badge color="blue" className="ml-2">
-                      {countBusinessDays(e.startDate, e.endDate)} Tage
+                      {countBusinessDays(e.startDate, e.endDate)} days
                     </Badge>
                     {e.notes && <p className="text-xs text-gray-500 mt-0.5">{e.notes}</p>}
                   </div>
@@ -265,7 +265,7 @@ export function VacationPage() {
       </Card>
 
       {/* Sick entries */}
-      <Card title="Krankentage">
+      <Card title="Sick Days">
         <div className="flex flex-col gap-2">
           <Button
             size="sm"
@@ -276,10 +276,10 @@ export function VacationPage() {
             }}
             className="self-start"
           >
-            <Plus size={14} /> Eintrag hinzufügen
+            <Plus size={14} /> Add entry
           </Button>
           {sickEntries.length === 0 ? (
-            <p className="text-sm text-gray-400 mt-2">Noch keine Krankmeldungen</p>
+            <p className="text-sm text-gray-400 mt-2">No sick day entries yet</p>
           ) : (
             <ul className="flex flex-col gap-2 mt-2">
               {[...sickEntries].reverse().map((e) => (
@@ -292,7 +292,7 @@ export function VacationPage() {
                       {e.startDate} – {e.endDate}
                     </span>
                     <Badge color="yellow" className="ml-2">
-                      {countBusinessDays(e.startDate, e.endDate)} Tage
+                      {countBusinessDays(e.startDate, e.endDate)} days
                     </Badge>
                     {e.notes && <p className="text-xs text-gray-500 mt-0.5">{e.notes}</p>}
                   </div>
@@ -329,7 +329,7 @@ export function VacationPage() {
         }}
         onSave={handleSaveVac}
         initial={editingVac ?? undefined}
-        title={editingVac ? 'Urlaub bearbeiten' : 'Urlaub eintragen'}
+        title={editingVac ? 'Edit vacation' : 'Add vacation'}
       />
       <EntryModal
         isOpen={showSickModal}
@@ -339,7 +339,7 @@ export function VacationPage() {
         }}
         onSave={handleSaveSick}
         initial={editingSick ?? undefined}
-        title={editingSick ? 'Kranktag bearbeiten' : 'Kranktag eintragen'}
+        title={editingSick ? 'Edit sick day' : 'Add sick day'}
       />
     </div>
   )

@@ -105,46 +105,42 @@ export function DashboardPage() {
       <div className="grid grid-cols-2 gap-4">
         <StatCard
           icon={Umbrella}
-          label="Verbleibende Urlaubstage"
+          label="Remaining vacation days"
           value={budget > 0 ? remainingDays : '—'}
-          sub={
-            budget > 0
-              ? `${usedVacationDays} von ${budget} Tagen genutzt`
-              : 'Kein Budget eingetragen'
-          }
+          sub={budget > 0 ? `${usedVacationDays} of ${budget} days used` : 'No budget set'}
           color="bg-blue-50 border-blue-100"
         />
         <StatCard
           icon={Heart}
-          label="Krankentage (dieses Jahr)"
+          label="Sick days (this year)"
           value={usedSickDays}
           sub={`${currentYear}`}
           color="bg-yellow-50 border-yellow-100"
         />
         <StatCard
           icon={Clock}
-          label={`Arbeitsstunden (${format(new Date(currentMonth + '-01'), 'MMMM')})`}
+          label={`Work hours (${format(new Date(currentMonth + '-01'), 'MMMM')})`}
           value={`${(monthlyWorkMinutes / 60).toFixed(1)}h`}
-          sub={`${settings.workHoursPerDay}h/Tag geplant`}
+          sub={`${settings.workHoursPerDay}h/day planned`}
           color="bg-green-50 border-green-100"
         />
         <StatCard
           icon={Target}
-          label="Monatsziel"
+          label="Monthly target"
           value={`${Math.round((monthlyWorkMinutes / expectedMonthMinutes) * 100)}%`}
-          sub={`${(expectedMonthMinutes / 60).toFixed(0)}h Soll`}
+          sub={`${(expectedMonthMinutes / 60).toFixed(0)}h target`}
           color="bg-purple-50 border-purple-100"
         />
         <StatCard
           icon={TrendingUp}
-          label={`Überstunden (${format(new Date(currentMonth + '-01'), 'MMMM')})`}
+          label={`Overtime (${format(new Date(currentMonth + '-01'), 'MMMM')})`}
           value={monthlyOvertimeLabel ?? '±0'}
           sub={
             monthlyOvertimeMinutes > 0
-              ? 'Mehrstunden gesammelt'
+              ? 'Extra hours accumulated'
               : monthlyOvertimeMinutes < 0
-                ? 'Minusstunden aufgelaufen'
-                : 'Ausgeglichen'
+                ? 'Hours in deficit'
+                : 'Balanced'
           }
           color={
             monthlyOvertimeMinutes > 0
@@ -158,9 +154,9 @@ export function DashboardPage() {
 
       {/* Quick overview cards */}
       <div className="grid grid-cols-2 gap-4">
-        <Card title="Letzte Urlaubseinträge">
+        <Card title="Recent vacation entries">
           {vacationEntries.length === 0 ? (
-            <p className="text-sm text-gray-400">Noch keine Urlaubseinträge</p>
+            <p className="text-sm text-gray-400">No vacation entries yet</p>
           ) : (
             <ul className="flex flex-col gap-2">
               {vacationEntries
@@ -178,9 +174,9 @@ export function DashboardPage() {
           )}
         </Card>
 
-        <Card title="Krankentage (aktuelles Jahr)">
+        <Card title="Sick days (current year)">
           {sickEntries.filter((e) => e.startDate.startsWith(String(currentYear))).length === 0 ? (
-            <p className="text-sm text-gray-400">Keine Krankentage eingetragen</p>
+            <p className="text-sm text-gray-400">No sick days recorded</p>
           ) : (
             <ul className="flex flex-col gap-2">
               {sickEntries

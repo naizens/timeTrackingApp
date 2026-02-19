@@ -104,16 +104,16 @@ export function DayCell({
 
       {/* Type labels */}
       {isCurrentMonth && workDay?.type === 'vacation' && (
-        <div className="text-[10px] font-semibold text-blue-700">Urlaub</div>
+        <div className="text-[10px] font-semibold text-blue-700">Vacation</div>
       )}
       {isCurrentMonth && workDay?.type === 'sick' && (
-        <div className="text-[10px] font-semibold text-yellow-700">Krank</div>
+        <div className="text-[10px] font-semibold text-yellow-700">Sick</div>
       )}
       {isCurrentMonth && workDay?.type === 'paid_absence' && (
-        <div className="text-[10px] font-semibold text-purple-700">Fehltag</div>
+        <div className="text-[10px] font-semibold text-purple-700">Absence</div>
       )}
       {isCurrentMonth && workDay?.type === 'school_day' && (
-        <div className="text-[10px] font-semibold text-teal-700">Berufsschule</div>
+        <div className="text-[10px] font-semibold text-teal-700">School</div>
       )}
 
       {/* Holiday badge */}

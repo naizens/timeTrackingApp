@@ -11,9 +11,9 @@ import { useTodoStore } from '@renderer/store/useTodoStore'
 import type { Todo, TodoPriority, TodoStatus } from '@renderer/types/store'
 
 const PRIORITY_OPTIONS = [
-  { value: 'low', label: 'Niedrig' },
-  { value: 'medium', label: 'Mittel' },
-  { value: 'high', label: 'Hoch' }
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' }
 ]
 
 const PRIORITY_COLORS: Record<TodoPriority, 'gray' | 'yellow' | 'red'> = {
@@ -23,9 +23,9 @@ const PRIORITY_COLORS: Record<TodoPriority, 'gray' | 'yellow' | 'red'> = {
 }
 
 const PRIORITY_LABELS: Record<TodoPriority, string> = {
-  low: 'Niedrig',
-  medium: 'Mittel',
-  high: 'Hoch'
+  low: 'Low',
+  medium: 'Medium',
+  high: 'High'
 }
 
 const STATUS_NEXT: Record<TodoStatus, TodoStatus> = {
@@ -64,29 +64,29 @@ function AddTodoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Aufgabe hinzufügen">
+    <Modal isOpen={isOpen} onClose={onClose} title="Add task">
       <div className="flex flex-col gap-4">
         <Input
-          label="Titel"
+          label="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Aufgabentitel..."
+          placeholder="Task title..."
         />
         <Textarea
-          label="Beschreibung"
+          label="Description"
           value={description}
           onChange={(e) => setDesc(e.target.value)}
           placeholder="Optional..."
         />
         <div className="grid grid-cols-2 gap-3">
           <Select
-            label="Priorität"
+            label="Priority"
             value={priority}
             onChange={(e) => setPriority(e.target.value as TodoPriority)}
             options={PRIORITY_OPTIONS}
           />
           <Input
-            label="Fälligkeitsdatum"
+            label="Due date"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
@@ -94,10 +94,10 @@ function AddTodoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
         </div>
         <div className="flex gap-2 pt-2">
           <Button className="flex-1" onClick={handleSave} disabled={!title.trim()}>
-            Speichern
+            Save
           </Button>
           <Button variant="secondary" onClick={onClose}>
-            Abbrechen
+            Cancel
           </Button>
         </div>
       </div>
@@ -120,7 +120,7 @@ function TodoItem({ todo }: { todo: Todo }) {
       <button
         onClick={() => updateStatus(todo.id, STATUS_NEXT[todo.status])}
         className="mt-0.5 shrink-0 hover:scale-110 transition-transform"
-        aria-label="Status wechseln"
+        aria-label="Toggle status"
       >
         <StatusIcon status={todo.status} />
       </button>
@@ -141,8 +141,8 @@ function TodoItem({ todo }: { todo: Todo }) {
             <span
               className={`text-xs ${isOverdue ? 'text-red-600 font-semibold' : 'text-gray-400'}`}
             >
-              Fällig: {format(parseISO(todo.dueDate), 'dd.MM.yyyy')}
-              {isOverdue && ' (überfällig)'}
+              Due: {format(parseISO(todo.dueDate), 'dd.MM.yyyy')}
+              {isOverdue && ' (overdue)'}
             </span>
           )}
         </div>
@@ -152,7 +152,7 @@ function TodoItem({ todo }: { todo: Todo }) {
       <button
         onClick={() => deleteTodo(todo.id)}
         className="p-1.5 text-gray-300 hover:text-red-500 rounded transition-colors shrink-0"
-        aria-label="Löschen"
+        aria-label="Delete"
       >
         <Trash2 size={14} />
       </button>
@@ -181,13 +181,13 @@ export function TodoPage() {
     <div className="p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Aufgaben</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Tasks</h1>
           <p className="text-sm text-gray-500">
-            {pendingCount} offen · {doneCount} erledigt
+            {pendingCount} open · {doneCount} done
           </p>
         </div>
         <Button onClick={() => setShowModal(true)}>
-          <Plus size={16} /> Neue Aufgabe
+          <Plus size={16} /> New task
         </Button>
       </div>
 
@@ -195,10 +195,10 @@ export function TodoPage() {
       <div className="flex gap-1 bg-gray-100 p-1 rounded-lg self-start">
         {(
           [
-            ['all', 'Alle'],
-            ['pending', 'Offen'],
-            ['in_progress', 'In Bearbeitung'],
-            ['done', 'Erledigt']
+            ['all', 'All'],
+            ['pending', 'Open'],
+            ['in_progress', 'In Progress'],
+            ['done', 'Done']
           ] as const
         ).map(([val, label]) => (
           <button
@@ -214,11 +214,11 @@ export function TodoPage() {
 
       {/* Todo list */}
       {isLoading ? (
-        <p className="text-sm text-gray-400">Lädt...</p>
+        <p className="text-sm text-gray-400">Loading...</p>
       ) : sorted.length === 0 ? (
         <div className="text-center py-12 text-gray-400">
           <ChevronUp size={32} className="mx-auto mb-2 opacity-30" />
-          <p className="text-sm">Keine Aufgaben gefunden</p>
+          <p className="text-sm">No tasks found</p>
         </div>
       ) : (
         <ul className="flex flex-col gap-2">

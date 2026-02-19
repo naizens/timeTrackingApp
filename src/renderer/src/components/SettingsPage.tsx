@@ -11,13 +11,13 @@ export function SettingsPage() {
 
   return (
     <div className="p-6 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold text-gray-900">Einstellungen</h1>
+      <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
 
-      <Card title="Arbeitszeit">
+      <Card title="Work Hours">
         <div className="flex flex-col gap-4">
           <div className="w-40">
             <Input
-              label="Arbeitsstunden pro Tag"
+              label="Work hours per day"
               type="number"
               min={1}
               max={24}
@@ -29,16 +29,16 @@ export function SettingsPage() {
         </div>
       </Card>
 
-      <Card title="Feiertage">
+      <Card title="Public Holidays">
         <div className="max-w-xs">
           <Select
-            label="Bundesland"
+            label="Federal State"
             value={settings.germanState}
             onChange={(e) => update({ germanState: e.target.value as GermanStateCode })}
             options={STATE_OPTIONS}
           />
           <p className="text-xs text-gray-500 mt-2">
-            Feiertage werden von feiertage-api.de geladen und für 7 Tage lokal gespeichert.
+            Public holidays are fetched from feiertage-api.de and cached locally for 7 days.
           </p>
         </div>
       </Card>

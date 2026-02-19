@@ -1,5 +1,4 @@
 import { format, addMonths, subMonths, parseISO } from 'date-fns'
-import { de } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { MonthView } from './MonthView'
 import { useCalendarStore } from '@renderer/store/useCalendarStore'
@@ -45,19 +44,19 @@ export function CalendarPage() {
           <button
             onClick={goToPrev}
             className="p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-            aria-label="Vorheriger Monat"
+            aria-label="Previous month"
           >
             <ChevronLeft size={18} />
           </button>
 
           <h2 className="text-xl font-bold text-gray-900 min-w-44 text-center">
-            {format(currentDate, 'MMMM yyyy', { locale: de })}
+            {format(currentDate, 'MMMM yyyy')}
           </h2>
 
           <button
             onClick={goToNext}
             className="p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-            aria-label="Nächster Monat"
+            aria-label="Next month"
           >
             <ChevronRight size={18} />
           </button>
@@ -66,7 +65,7 @@ export function CalendarPage() {
             onClick={goToToday}
             className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
           >
-            Heute
+            Today
           </button>
         </div>
 
@@ -83,8 +82,7 @@ export function CalendarPage() {
       {/* Offline / API error warning */}
       {holidayError && (
         <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm px-4 py-2.5 rounded-lg">
-          Feiertage konnten nicht geladen werden (Offline-Modus). Gespeicherte Daten werden
-          verwendet.
+          Public holidays could not be loaded (offline mode). Cached data is being used.
         </div>
       )}
 

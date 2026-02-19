@@ -44,12 +44,12 @@ export const GERMAN_STATES: Record<GermanStateCode, string> = {
 // --- Calendar ---
 export type DayType =
   | 'work'
-  | 'vacation' // Urlaubstag – wird in vacation store synchronisiert
+  | 'vacation' // Vacation day – synced with the vacation store
   | 'sick'
   | 'holiday'
   | 'weekend'
-  | 'paid_absence' // Bezahlter Fehltag (kein Urlaub, kein Krank)
-  | 'school_day' // Berufsschultag – wird als volle Arbeitszeit gewertet
+  | 'paid_absence' // Paid absence (not vacation, not sick)
+  | 'school_day' // Vocational school day – counted as full work hours
 
 export interface WorkDay {
   date: string // "2026-02-17"

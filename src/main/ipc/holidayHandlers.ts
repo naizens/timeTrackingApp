@@ -58,7 +58,7 @@ async function fetchHolidays(year: number, state: GermanStateCode): Promise<Holi
       console.warn(`Holiday API unreachable, serving stale cache for ${state}/${year}`)
       return cached.data
     }
-    throw new Error(`Feiertage konnten nicht geladen werden: ${(error as Error).message}`)
+    throw new Error(`Failed to load public holidays: ${(error as Error).message}`)
   }
 }
 
@@ -80,7 +80,7 @@ function fetchJson(url: string): Promise<unknown> {
         try {
           resolve(JSON.parse(body))
         } catch {
-          reject(new Error('Ungültige API-Antwort (kein JSON)'))
+          reject(new Error('Invalid API response (not JSON)'))
         }
       })
       response.on('error', reject)

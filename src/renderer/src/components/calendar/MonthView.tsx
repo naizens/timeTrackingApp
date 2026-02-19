@@ -8,7 +8,6 @@ import {
   format,
   isSameMonth
 } from 'date-fns'
-import { de } from 'date-fns/locale'
 import { DayCell } from './DayCell'
 import { DayEntryModal } from './DayEntryModal'
 import { useCalendarStore } from '@renderer/store/useCalendarStore'
@@ -21,7 +20,7 @@ import {
 } from '@renderer/utils/dateHelpers'
 import type { HolidayEntry } from '@renderer/types/store'
 
-const WEEKDAY_LABELS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export function MonthView() {
   const { currentYearMonth, workDays, loadMonth } = useCalendarStore()
@@ -93,18 +92,16 @@ export function MonthView() {
       {totalWorkMinutes > 0 && (
         <div className="flex items-center gap-4 text-sm bg-blue-50 border border-blue-100 rounded-lg px-4 py-2">
           <span className="text-gray-600">
-            Netto: <span className="font-semibold text-blue-700">{totalHours}h</span>
+            Net: <span className="font-semibold text-blue-700">{totalHours}h</span>
           </span>
           {overtimeLabel && (
             <span
               className={`font-semibold ${totalOvertimeMinutes > 0 ? 'text-orange-600' : 'text-red-600'}`}
             >
-              Überstunden: {overtimeLabel}
+              Overtime: {overtimeLabel}
             </span>
           )}
-          <span className="text-gray-400 text-xs">
-            {format(currentDate, 'MMMM yyyy', { locale: de })}
-          </span>
+          <span className="text-gray-400 text-xs">{format(currentDate, 'MMMM yyyy')}</span>
         </div>
       )}
 

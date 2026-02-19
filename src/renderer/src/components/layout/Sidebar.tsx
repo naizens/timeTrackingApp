@@ -3,9 +3,9 @@ import { LayoutDashboard, Calendar, Umbrella, CheckSquare, Settings } from 'luci
 
 const NAV_ITEMS = [
   { to: '/', label: 'Dashboard', Icon: LayoutDashboard },
-  { to: '/calendar', label: 'Kalender', Icon: Calendar },
-  { to: '/vacation', label: 'Urlaub', Icon: Umbrella },
-  { to: '/todos', label: 'Aufgaben', Icon: CheckSquare }
+  { to: '/calendar', label: 'Calendar', Icon: Calendar },
+  { to: '/vacation', label: 'Vacation', Icon: Umbrella },
+  { to: '/todos', label: 'Tasks', Icon: CheckSquare }
 ]
 
 export function Sidebar() {
@@ -48,7 +48,7 @@ export function Sidebar() {
           `}
         >
           <Settings size={16} />
-          Einstellungen
+          Settings
         </NavLink>
       </div>
     </aside>
