@@ -114,5 +114,3 @@ Data includes:
 
 ## License
 
-MIT
-
